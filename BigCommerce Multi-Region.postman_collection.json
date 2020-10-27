@@ -1,0 +1,442 @@
+{
+	"info": {
+		"_postman_id": "8c2f79d8-b8c7-45d1-a19d-ed855e52ecf0",
+		"name": "BigCommerce Multi-Region",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a Site",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a04a3c62-b2a8-4fe2-b9a5-c740895543de",
+						"exec": [
+							"var site_id = JSON.parse(responseBody);",
+							"pm.environment.set(\"site_id\", site_id.data.id);",
+							"console.log(site_id); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"equals": true,
+						"key": "host",
+						"value": "api.bigcommerce.com"
+					},
+					{
+						"equals": true,
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Client",
+						"value": "{{Client_Id}}"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Token",
+						"value": "{{Access_Token}}"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"channel_id\": {{channel-id}},\n    \"url\": \"https://rayeethompson.me\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.bigcommerce.com/stores/{{Store_Hash}}/v3/channels/{{channel-id}}/site",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bigcommerce",
+						"com"
+					],
+					"path": [
+						"stores",
+						"{{Store_Hash}}",
+						"v3",
+						"channels",
+						"{{channel-id}}",
+						"site"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Channel",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bdb19a6c-e86a-47a9-9b6e-d2e6f14690da",
+						"exec": [
+							"var id = JSON.parse(responseBody);",
+							"pm.environment.set(\"channel-id\", id.data.id);",
+							"console.log(id); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"equals": true,
+						"key": "host",
+						"value": "api.bigcommerce.com"
+					},
+					{
+						"equals": true,
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Client",
+						"value": "{{Client_Id}}"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Token",
+						"value": "{{Access_Token}}"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"storefront\",\n    \"platform\": \"custom\",\n    \"name\": \"nextjs-conf-rachael.com (US)\",\n    \"external_id\": \"United States\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.bigcommerce.com/stores/{{Store_Hash}}/v3/channels",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bigcommerce",
+						"com"
+					],
+					"path": [
+						"stores",
+						"{{Store_Hash}}",
+						"v3",
+						"channels"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Route",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a04a3c62-b2a8-4fe2-b9a5-c740895543de",
+						"exec": [
+							"var site_id = JSON.parse(responseBody);",
+							"pm.environment.set(\"site-id\", site_id.data.id);",
+							"console.log(site_id); "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"equals": true,
+						"key": "host",
+						"value": "api.bigcommerce.com"
+					},
+					{
+						"equals": true,
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Client",
+						"value": "{{Client_Id}}"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Token",
+						"value": "{{Access_Token}}"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"id\": 1,\n        \"type\": \"product\",\n        \"matching\": \"*\", //wild card - any product\n        \"route\": \"/products/{id}\"\n    },\n    {\n        \"type\": \"product\",\n        \"matching\": \"10\", //id of a product being id 10\n        \"route\": \"/products?id={id}\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.bigcommerce.com/stores/{{Store_Hash}}/v3/site/{{site_id}}/routes",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bigcommerce",
+						"com"
+					],
+					"path": [
+						"stores",
+						"{{Store_Hash}}",
+						"v3",
+						"site",
+						"{{site_id}}",
+						"routes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Sites",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"equals": true,
+						"key": "host",
+						"value": "api.bigcommerce.com"
+					},
+					{
+						"equals": true,
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Client",
+						"value": "{{Client_Id}}"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Token",
+						"value": "{{Access_Token}}"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.bigcommerce.com/stores/{{Store_Hash}}/v3/sites",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bigcommerce",
+						"com"
+					],
+					"path": [
+						"stores",
+						"{{Store_Hash}}",
+						"v3",
+						"sites"
+					],
+					"query": [
+						{
+							"key": "host",
+							"value": "api.bigcommerce.com",
+							"disabled": true
+						},
+						{
+							"key": "Accept",
+							"value": "application/json",
+							"disabled": true
+						},
+						{
+							"key": "X-Auth-Client",
+							"value": "{{Client_Id}}",
+							"disabled": true
+						},
+						{
+							"key": "X-Auth-Token",
+							"value": "{{Access_Token}}",
+							"disabled": true
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Channel Site",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"equals": true,
+						"key": "host",
+						"value": "api.bigcommerce.com"
+					},
+					{
+						"equals": true,
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Client",
+						"value": "{{Client_Id}}"
+					},
+					{
+						"equals": true,
+						"key": "X-Auth-Token",
+						"value": "{{Access_Token}}"
+					},
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://api.bigcommerce.com/stores/{{Store_Hash}}/v3/channels/{{channel-id}}/site",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bigcommerce",
+						"com"
+					],
+					"path": [
+						"stores",
+						"{{Store_Hash}}",
+						"v3",
+						"channels",
+						"{{channel-id}}",
+						"site"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Channel Currencies",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-Auth-Client",
+						"value": "{{Client_Id}}",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{Access_Token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"enabled_currencies\": [\n        \"USD\"\n    ],\n    \"default_currency\": \"USD\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.bigcommerce.com/stores/{{Store_Hash}}/v3/channels/{{channel-id}}/currency-assignments",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bigcommerce",
+						"com"
+					],
+					"path": [
+						"stores",
+						"{{Store_Hash}}",
+						"v3",
+						"channels",
+						"{{channel-id}}",
+						"currency-assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Currencies for Channels",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "X-Auth-Client",
+						"value": "{{Client_Id}}",
+						"type": "text"
+					},
+					{
+						"key": "X-Auth-Token",
+						"value": "{{Access_Token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://api.bigcommerce.com/stores/{{Store_Hash}}/v3/channels?includes=currencies",
+					"protocol": "https",
+					"host": [
+						"api",
+						"bigcommerce",
+						"com"
+					],
+					"path": [
+						"stores",
+						"{{Store_Hash}}",
+						"v3",
+						"channels"
+					],
+					"query": [
+						{
+							"key": "includes",
+							"value": "currencies"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
